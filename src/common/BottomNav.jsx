@@ -1,6 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useProductProvider } from "../ContextAPI/ProductContext";
 
 export default function BottomNav() {
+
+  const { AllCategory, NavFilter } = useProductProvider()
   return (
     <>
       <div className="container-fluid-lg bot_nav">
@@ -24,78 +28,86 @@ export default function BottomNav() {
                   <div className="offcanvas-body">
                     <ul className="navbar-nav">
                       <li className="nav-item ">
-                        <a className="nav-link  ps-0" href="!">
-                          Home
-                        </a>
+                        <Link to="/" className="nav-link  ps-0" href="!">
+                          HOME
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link " href="!">
-                          Shop
-                        </a>
+                        <Link className="nav-link" to="/shop">
+                          SHOP
+                        </Link>
                       </li>
                       <li className="nav-item dropdown">
-                        <a
+                        <Link
                           className="nav-link dropdown-toggle"
-                          href="!"
-                          data-bs-toggle="dropdown"
                         >
-                          Categories
-                        </a>
+                          CATEGORIES
+                        </Link>
                         <ul className="dropdown-menu">
-                          <li>
-                            <a
-                              className="dropdown-item"
-                              href="product-4-image.html"
-                            >
-                              Product 4 Image
-                            </a>
-                          </li>
+                          {AllCategory.map((items) => {
+                            return (
+                              <li key={items.id}>
+                                <Link
+                                  className="dropdown-item"
+                                  to="/shop"
+                                  onClick={() => NavFilter(items.name)}
+                                >
+                                  {items.name}
+                                </Link>
+                              </li>
+                            )
+                          })}
                         </ul>
                       </li>
                       <li className="nav-item dropdown dropdown-mega">
-                        <a
+                        <Link
                           className="nav-link dropdown-toggle ps-xl-2 ps-0"
                           href="!"
                           data-bs-toggle="dropdown"
                         >
-                          Mega Menu
-                        </a>
+                          MEGA MENU
+                        </Link>
                         <div className="dropdown-menu dropdown-menu-2 dropdown-menu-left">
                           <div className="row">
                             <div className="dropdown-column col-xl-3">
                               <h5 className="dropdown-header">
                                 Daily Vegetables
                               </h5>
-                              <a
+                              <Link
                                 className="dropdown-item"
                                 href="shop-left-sidebar.html"
                               >
                                 Beans &amp; Brinjals
-                              </a>
+                              </Link>
                             </div>
                             <div className="dropdown-column col-xl-3">
                               <h5 className="dropdown-header">Baby Tender</h5>
-                              <a
+                              <Link
                                 className="dropdown-item"
                                 href="shop-left-sidebar.html"
                               >
                                 Beans &amp; Brinjals
-                              </a>
+                              </Link>
                             </div>
                             <div className="dropdown-column col-xl-3">
                               <h5 className="dropdown-header">
                                 Exotic Vegetables
                               </h5>
-                              <a
+                              <Link
                                 className="dropdown-item"
                                 href="shop-left-sidebar.html"
                               >
                                 Asparagus &amp; Artichokes
-                              </a>
+                              </Link>
                             </div>
                             <div className="dropdown-column dropdown-column-img col-3" />
                           </div>
                         </div>
+                      </li>
+                      <li className="nav-item ">
+                        <Link to="/cart" className="nav-link  ps-0" href="!">
+                          CART
+                        </Link>
                       </li>
                     </ul>
                   </div>
@@ -104,19 +116,19 @@ export default function BottomNav() {
               <div className="rightside-menu">
                 <ul className="option-list-2">
                   <li>
-                    <a href="!" className="header-icon search-box search-icon">
+                    <Link href="!" className="header-icon search-box search-icon">
                       <i className="fa-solid fa-cart-shopping" />
-                    </a>
+                    </Link>
                   </li>
                   <li className="onhover-dropdown">
-                    <a href="!" className="header-icon swap-icon">
+                    <Link href="!" className="header-icon swap-icon">
                       <i className="fa-solid fa-cart-shopping" />
-                    </a>
+                    </Link>
                     <div className="onhover-div">
                       <ul className="cart-list">
                         <li>
                           <div className="drop-cart">
-                            <a
+                            <Link
                               href="product-left-thumbnail.html"
                               className="drop-image"
                             >
@@ -125,11 +137,11 @@ export default function BottomNav() {
                                 className="blur-up lazyload"
                                 alt=""
                               />
-                            </a>
+                            </Link>
                             <div className="drop-contain">
-                              <a href="product-left-thumbnail.html">
+                              <Link href="product-left-thumbnail.html">
                                 <h5>Fantasy Crunchy Choco Chip Cookies</h5>
-                              </a>
+                              </Link>
                               <h6>
                                 <span>1 x</span> $80.58
                               </h6>
@@ -141,7 +153,7 @@ export default function BottomNav() {
                         </li>
                         <li>
                           <div className="drop-cart">
-                            <a
+                            <Link
                               href="product-left-thumbnail.html"
                               className="drop-image"
                             >
@@ -150,14 +162,14 @@ export default function BottomNav() {
                                 className="blur-up lazyload"
                                 alt=""
                               />
-                            </a>
+                            </Link>
                             <div className="drop-contain">
-                              <a href="product-left-thumbnail.html">
+                              <Link href="product-left-thumbnail.html">
                                 <h5>
                                   Peanut Butter Bite Premium Butter Cookies 600
                                   g
                                 </h5>
-                              </a>
+                              </Link>
                               <h6>
                                 <span>1 x</span> $25.68
                               </h6>
@@ -173,28 +185,28 @@ export default function BottomNav() {
                         <h4 className="theme-color fw-bold">$106.58</h4>
                       </div>
                       <div className="button-group">
-                        <a href="cart.html" className="btn btn-sm cart-button">
+                        <Link to="/cart" className="btn btn-sm cart-button">
                           View Cart
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="checkout.html"
                           className="btn btn-sm cart-button theme-bg-color
                                               text-white"
                         >
                           Checkout
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </li>
                   <li className="onhover-dropdown">
-                    <a href="!" className="header-icon swap-icon">
+                    <Link href="!" className="header-icon swap-icon">
                       <i className="fa-regular fa-heart" />
-                    </a>
+                    </Link>
                     <div className="onhover-div">
                       <ul className="cart-list">
                         <li>
                           <div className="drop-cart">
-                            <a
+                            <Link
                               href="product-left-thumbnail.html"
                               className="drop-image"
                             >
@@ -203,11 +215,11 @@ export default function BottomNav() {
                                 className="blur-up lazyload"
                                 alt=""
                               />
-                            </a>
+                            </Link>
                             <div className="drop-contain">
-                              <a href="product-left-thumbnail.html">
+                              <Link href="product-left-thumbnail.html">
                                 <h5>Fantasy Crunchy Choco Chip Cookies</h5>
-                              </a>
+                              </Link>
                               <h6>
                                 <span>1 x</span> $80.58
                               </h6>
@@ -219,7 +231,7 @@ export default function BottomNav() {
                         </li>
                         <li>
                           <div className="drop-cart">
-                            <a
+                            <Link
                               href="product-left-thumbnail.html"
                               className="drop-image"
                             >
@@ -228,14 +240,14 @@ export default function BottomNav() {
                                 className="blur-up lazyload"
                                 alt=""
                               />
-                            </a>
+                            </Link>
                             <div className="drop-contain">
-                              <a href="product-left-thumbnail.html">
+                              <Link href="product-left-thumbnail.html">
                                 <h5>
                                   Peanut Butter Bite Premium Butter Cookies 600
                                   g
                                 </h5>
-                              </a>
+                              </Link>
                               <h6>
                                 <span>1 x</span> $25.68
                               </h6>
@@ -251,21 +263,21 @@ export default function BottomNav() {
                         <h4 className="theme-color fw-bold">$106.58</h4>
                       </div>
                       <div className="button-group">
-                        <a href="cart.html" className="btn btn-sm cart-button">
+                        <Link href="cart.html" className="btn btn-sm cart-button">
                           View Cart
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="checkout.html"
                           className="btn btn-sm cart-button theme-bg-color
                                               text-white"
                         >
                           Checkout
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </li>
                 </ul>
-                <a href="user-dashboard.html" className="user-box">
+                <Link href="user-dashboard.html" className="user-box">
                   <span className="header-icon">
                     <i className="fa-solid fa-user" />
                   </span>
@@ -273,7 +285,7 @@ export default function BottomNav() {
                     <h6 className="text-content">My Account</h6>
                     <h4 className="mt-1">Jennifer V. Ward</h4>
                   </div>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

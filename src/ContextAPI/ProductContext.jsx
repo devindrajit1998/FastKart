@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import categories from "../API/Category";
 import ProductsAPI from "../API/ProductsAPI";
 // import end ------------------------------------------------->
@@ -9,29 +9,55 @@ const AllData = ProductsAPI;
 
 const ProductProvider = ({ children }) => {
   // ----------------------------------------------------------------------------------------
+  // ----------------------------------- Common States ------------------------------------->
+  // ----------------------------------------------------------------------------------------
+  // for modal management----- >
+  const [openModal, setOpenModal] = useState(false);
+  // const [getId, setGetId] = useState();
+  const [modalData, setModalData] = useState([])
+  // for category filter------ >
+  const [shopData, setShopData] = useState(AllData);
+
+  // for add to cart ------- >
+  const [cart, setCart] = useState([]);
+
+  // ----------------------------------------------------------------------------------------
+  // ----------------------------------- Common States ------------------------------------->
+  // ----------------------------------------------------------------------------------------
+  //*****************************************************************************************
+  // ----------------------------------------------------------------------------------------
   // ------------------------------- Basic Functions Start --------------------------------->
   // ----------------------------------------------------------------------------------------
   // Open Quick Modal Start -------------->
-  const [openModal, setOpenModal] = useState(false);
-  const [getId, setGetId] = useState();
-  const [modalData, setModalData]= useState()
-
   const ToggleModal = (id) => {
     setOpenModal(!openModal);
-    setGetId(id);
     FindModalData(id)
-    console.log('modalData', modalData)
   };
 
   // <---------------- Open Quick Modal End
+
   // function to find the id --------------->
 
-  const FindModalData = (id)=>{
-    const ModalData = AllData.find((item)=>{
-        return item.id === id
+  const FindModalData = (id) => {
+    const MData = AllData.find((item) => {
+      return item.id === id
     })
-    setModalData(ModalData)
+    setModalData(MData)
   }
+
+  useEffect(() => {
+  }, [modalData]);
+  // <---------------- function to find the id
+
+  // add to cart function --------------->
+
+  const addCart = (id) => {
+    const filterData = AllData.find((items) => items.id === id);
+    setCart((curElem)=>[...curElem,filterData ])
+    console.log("filterData", cart)
+  }
+
+
 
   // ----------------------------------------------------------------------------------------
   // --------------------------------- Basic Functions End --------------------------------->
@@ -40,7 +66,13 @@ const ProductProvider = ({ children }) => {
   // ----------------------------------------------------------------------------------------
   // ------------------------------ Category Data Management ------------------------------->
   // ----------------------------------------------------------------------------------------
-  // console.log(AllCategory)
+
+
+  // manage navigation menu category filter ----->
+  const NavFilter = (category) => {
+    const filCate = AllData.filter((items) => items.category === category)
+    setShopData(filCate)
+  }
   // ----------------------------------------------------------------------------------------
   // ------------------------------ Category Data Management ------------------------------->
   // ----------------------------------------------------------------------------------------
@@ -48,7 +80,7 @@ const ProductProvider = ({ children }) => {
   // ----------------------------------------------------------------------------------------
   // ----------------------------- Shop Page Data Management ------------------------------->
   // ----------------------------------------------------------------------------------------
-  const [shopData, setShopData] = useState(AllData);
+
 
   //Category Filter Function Start --------------------->
   const filterByCategory = (category) => {
@@ -71,6 +103,9 @@ const ProductProvider = ({ children }) => {
         AllCategory,
         shopData,
         filterByCategory,
+        NavFilter,
+        modalData,
+        addCart
       }}
     >
       {children}

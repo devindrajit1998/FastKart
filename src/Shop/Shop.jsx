@@ -6,13 +6,12 @@ import ProductBox from "./ProductBox";
 import Pagination from "../common/Pagination";
 import ProductModal from "../common/ProductModal";
 export default function Shop() {
-  const { AllCategory, shopData, filterByCategory, openModal, ToggleModal } =
-    useProductProvider();
+  const { AllCategory, shopData, filterByCategory, openModal, modalData } = useProductProvider();
 
   return (
     <>
       <Layout />
-      <Breadcum page="Shop Category" />
+      <Breadcum page="Shop Page" />
       <section className="section-b-space shop-section">
         <div className="container-fluid-lg">
           <div className="row">

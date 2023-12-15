@@ -3,7 +3,7 @@ import React from "react";
 import { useProductProvider } from "../ContextAPI/ProductContext";
 
 export default function ProductBox(props) {
-  const { ToggleModal } = useProductProvider();
+  const { ToggleModal, addCart } = useProductProvider();
   const {
     id,
     category,
@@ -43,7 +43,7 @@ export default function ProductBox(props) {
                     <i className="fa-solid fa-eye" />
                   </a>
                 </li>
-                <li>
+                <li onClick={()=>addCart(id)}>
                   <a>
                     <i className="fa-solid fa-cart-shopping" />
                   </a>
@@ -91,7 +91,7 @@ export default function ProductBox(props) {
                 <del>${price}</del>
               </h5>
               <div className="add-to-cart-box bg-white">
-                <button className="btn btn-add-cart addcart-button">
+                <button className="btn btn-add-cart addcart-button" >
                   Add
                   <span className="add-icon bg-light-gray">
                     <i className="fa-solid fa-plus" />
