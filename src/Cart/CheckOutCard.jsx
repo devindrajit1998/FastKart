@@ -1,6 +1,11 @@
 import React from 'react'
+import { useProductProvider } from '../ContextAPI/ProductContext'
 
 export default function CheckOutCard() {
+
+    const {total, cart, handleOnChange, cupon, matchCupon, checkOutPrice, finalTotalSave} = useProductProvider();
+
+
   return (
    <>
     <div className="summery-box p-sticky">
@@ -9,36 +14,41 @@ export default function CheckOutCard() {
                                 </div>
                                 <div className="summery-contain">
                                     <div className="coupon-cart">
-                                        <h6 className="text-content mb-2">Coupon Apply</h6>
+                                        <h6 className="text-content mb-2">Cupon Apply</h6>
                                         <div className="mb-3 coupon-box input-group">
                                             <input
-                                                type="email"
+                                                type="text"
                                                 className="form-control"
-                                                id="exampleFormControlInput1"
                                                 placeholder="Enter Coupon Code Here..."
+                                                onChange={handleOnChange}
+                                                value={cupon}
                                             />
-                                            <button className="btn-apply">Apply</button>
+                                            <button className="btn-apply" onClick={()=>matchCupon(cupon)}>Apply</button>
                                         </div>
                                     </div>
                                     <ul>
                                         <li>
                                             <h4>Subtotal</h4>
-                                            <h4 className="price">$125.65</h4>
+                                            <h4 className="price">${total}</h4>
                                         </li>
                                         <li>
                                             <h4>Coupon Discount</h4>
-                                            <h4 className="price">(-) 0.00</h4>
+                                            <h4 className="price"> 0</h4>
                                         </li>
-                                        <li className="align-items-start">
+                                        <li>
+                                            <h4>Total Discount</h4>
+                                            <h4 className="price"> {finalTotalSave}</h4>
+                                        </li>
+                                        {/* <li className="align-items-start">
                                             <h4>Shipping</h4>
                                             <h4 className="price text-end">$6.90</h4>
-                                        </li>
+                                        </li> */}
                                     </ul>
                                 </div>
                                 <ul className="summery-total">
                                     <li className="list-total border-top-0">
-                                        <h4>Total (USD)</h4>
-                                        <h4 className="price theme-color">$132.58</h4>
+                                        <h4>Total</h4>
+                                        <h4 className="price theme-color">${checkOutPrice}</h4>
                                     </li>
                                 </ul>
                                 <div className="button-group cart-button">

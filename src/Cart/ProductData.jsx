@@ -2,16 +2,16 @@ import React from "react";
 import { useProductProvider } from "../ContextAPI/ProductContext";
 
 export default function ProductData() {
-  const { cart } = useProductProvider();
+  const { cart, incr, decr, removeSingle } = useProductProvider();
   let hide = "";
-  if(cart.length === 0){
-    hide = "d-block"
+  if (cart.length === 0) {
+    hide = "d-block";
   } else {
-    hide = "d-none"
+    hide = "d-none";
   }
   return (
     <>
-    <h2 className={`${hide}`}>Please add items to cart !</h2>
+      <h2 className={`${hide}`}>Please add items to cart !</h2>
       {cart.map((items) => {
         const {
           id,
@@ -32,11 +32,13 @@ export default function ProductData() {
           reviews,
           saleAvailable,
           featured,
-          quantity
+          quantity,
         } = items;
         const saving = price - offerPrice;
         const formattedNum = saving.toFixed(2);
-
+        const singleTotal = offerPrice * quantity;
+        const formatSingleTotal = singleTotal.toFixed(2);
+        
         return (
           <>
             <tr className="product-box-contain" key={id}>
@@ -82,8 +84,7 @@ export default function ProductData() {
                       <button
                         type="button"
                         className="btn qty-left-minus"
-                        data-type="minus"
-                        data-field=""
+                        onClick={() => decr(id)}
                       >
                         <i className="fa fa-minus ms-0" aria-hidden="true" />
                       </button>
@@ -96,8 +97,7 @@ export default function ProductData() {
                       <button
                         type="button"
                         className="btn qty-right-plus"
-                        data-type="plus"
-                        data-field=""
+                        onClick={() => incr(id)}
                       >
                         <i className="fa fa-plus ms-0" aria-hidden="true" />
                       </button>
@@ -107,16 +107,20 @@ export default function ProductData() {
               </td>
               <td className="subtotal">
                 <h4 className="table-title text-content">Total</h4>
-                <h5>$ total</h5>
+                <h5>$ {formatSingleTotal}</h5>
               </td>
               <td className="save-remove">
                 <h4 className="table-title text-content">Action</h4>
-                <a className="save notifi-wishlist" href="!">
+                {/* <a className="save notifi-wishlist" href="!">
                   Save for later
-                </a>
-                <a className="remove close_button" href="!">
-                  Remove
-                </a>
+                </a> */}
+                <button
+                  className="remove close_button cart_remove"
+                  onClick={() => removeSingle(id)}
+                >
+                  <i class="fa-solid fa-trash-can me-2" />
+                  <span>Remove</span>
+                </button>
               </td>
             </tr>
           </>

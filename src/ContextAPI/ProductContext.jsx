@@ -2,11 +2,13 @@ import { createContext, useContext, useState, useEffect } from "react";
 import categories from "../API/Category";
 import ProductsAPI from "../API/ProductsAPI";
 import { useParams } from "react-router-dom";
+import cuponCode from "../API/CuponCode";
 // import end ------------------------------------------------->
 
 const ProductContext = createContext();
 const AllCategory = categories;
 const AllData = ProductsAPI;
+const cuponData = cuponCode;
 
 const ProductProvider = ({ children }) => {
   // ----------------------------------------------------------------------------------------
@@ -26,8 +28,15 @@ const ProductProvider = ({ children }) => {
   const [wish, setWish] = useState([]);
 
   // to pass id ------------------->
-  const {id} = useParams();
+  const { id } = useParams();
 
+  // to manage cart quantity stage ---------->
+  const [quantity, setQuantity] = useState();
+  // to manage cart quantity stage ---------->
+  const [total, setTotal] = useState(0);
+  // to get cupon data ------------------>
+  const [cupon, setCupon] = useState();
+  const [cuponDiscount, setCuponDiscount] = useState(0);
   // ----------------------------------------------------------------------------------------
   // ----------------------------------- Common States ------------------------------------->
   // ----------------------------------------------------------------------------------------
@@ -53,40 +62,115 @@ const ProductProvider = ({ children }) => {
   };
 
   useEffect(() => {}, [modalData]);
-  // <---------------- function to find the id
-
-  // add to cart function ------------------->
+  // <---------------------------- function to find the id
+  //******************************************************
+  // add to cart function ------------------------------->
 
   const addCart = (id) => {
     const findDuplicate = cart.find((items) => items.id === id);
-if(!findDuplicate){
-  const filterData = AllData.find((items) => items.id === id);
-  const newData = {...filterData, quantity: 1}
-  setCart((curElem) => [...curElem, newData]);
-  // console.log("new cart", cart)
-} else {
-  const updatedCart = cart.map((item)=>item.id === id ? ({...item, quantity:item.quantity + 1}): item)
-  setCart(updatedCart )
-}
+    if (!findDuplicate) {
+      const filterData = AllData.find((items) => items.id === id);
+      const newData = { ...filterData, quantity: 1 };
+      setCart((curElem) => [...curElem, newData]);
+      // console.log("new cart", cart)
+    } else {
+      const updatedCart = cart.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      );
+      setCart(updatedCart);
+    }
   };
   useEffect(() => {
-    // console.log("cart item", cart);
+    console.log("cart item", cart);
   }, [cart]);
 
-  // <-------------------- add to cart function
-  // ******************************************
-  // add to wish function ------------------->
-const addWish = (id)=>{
+  // <-------------------------------- add to cart function
+  // ******************************************************
+  // cupon management function --------------------------->
+  const handleOnChange = (event) => {
+    setCupon(event.target.value);
+  };
 
+  const matchCupon = (code) => {
+    const findCupon = cuponData.find((item) => item.code === code);
+    if (!findCupon) {
+      console.log("cupon not matched");
+      setCuponDiscount(0);
+    } else {
+      console.log("cupon succesfully matched");
+      const cuponDiscount = findCupon.value;
+      setCuponDiscount(cuponDiscount);
+    }
+  };
 
-const filterWish = AllData.find((items)=>items.id === id)
-setWish((curElem)=>[...curElem, filterWish])
-} 
-useEffect(()=>{
-  console.log("wish items",wish)
-},[wish])
+  // <--------------------------- cupon management function
+  // ******************************************************
+  // cart total price management function ---------------->
+  const getSubtotal = () => {
+    const subTotal = cart.reduce((acc, obj) => {
+      return acc + obj.price * obj.quantity;
+    }, 0);
+    const updateCart = subTotal.toFixed(2);
+    setTotal(updateCart);
+  };
 
-  // <-------------------- add to cart function
+  const totalSave = cart.reduce((acc, obj) => {
+    return acc + (obj.price * obj.quantity - obj.offerPrice * obj.quantity);
+  }, 0);
+
+  const finalTotalSave = (totalSave + cuponDiscount);
+
+  const checkOutPrice = (total - finalTotalSave).toFixed(2);
+
+  useEffect(() => {
+    getSubtotal();
+  });
+
+  // <---------------- cart total price management  function
+  // *******************************************************
+  // cart quantity management function -------------------->
+
+  const incr = (id) => {
+    const quantityIncr = cart.map((curElem) =>
+      curElem.id === id
+        ? { ...curElem, quantity: curElem.quantity + 1 }
+        : curElem
+    );
+    setCart(quantityIncr);
+    getSubtotal();
+  };
+
+  const decr = (id) => {
+    const quantityDecr = cart.map((curElem) =>
+      curElem.id === id
+        ? { ...curElem, quantity: curElem.quantity - 1 }
+        : curElem
+    );
+    setCart(quantityDecr);
+    getSubtotal();
+  };
+
+  // <-------------------- cart quantity management  function
+  // ********************************************************
+  // remove single function -------------------------------->
+  const removeSingle = (id) => {
+    const removeItem = cart.filter((items) => items.id !== id);
+    // console.log('remove====>', removeItem)
+    setCart(removeItem);
+  };
+
+  // <-------------------------------- remove single function
+  // ********************************************************
+  // add to wish function ---------------------------------->
+  const addWish = (id) => {
+    const filterWish = AllData.find((items) => items.id === id);
+    setWish((curElem) => [...curElem, filterWish]);
+  };
+  useEffect(() => {
+    console.log("wish items", wish);
+  }, [wish]);
+
+  // <----------------------------------- add to cart function
   // ----------------------------------------------------------------------------------------
   // --------------------------------- Basic Functions End --------------------------------->
   // ----------------------------------------------------------------------------------------
@@ -136,7 +220,16 @@ useEffect(()=>{
         cart,
         AllData,
         addWish,
-        wish
+        wish,
+        incr,
+        decr,
+        total,
+        removeSingle,
+        cupon,
+        handleOnChange,
+        matchCupon,
+        checkOutPrice,
+        finalTotalSave,
       }}
     >
       {children}

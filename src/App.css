@@ -47,3 +47,16 @@
   height: 400px;
   object-fit: contain;
 }
+
+.cart_remove{
+  border: 0;
+  background-color: transparent;
+}
+
+/* .save-remove, .subtotal{
+  text-align: center;
+}
+
+.quantity-price{
+  margin: auto;
+} */

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useProductProvider } from "../ContextAPI/ProductContext";
 
 export default function BottomNav() {
-  const { AllCategory, NavFilter, cart, wish } = useProductProvider();
+  const { AllCategory, NavFilter, cart, wish, total} = useProductProvider();
   return (
     <>
       <div className="container-fluid-lg bot_nav">
@@ -162,7 +162,7 @@ export default function BottomNav() {
                       </ul>
                       <div className="price-box">
                         <h5>Price :</h5>
-                        <h4 className="theme-color fw-bold">$106.58</h4>
+                        <h4 className="theme-color fw-bold">${total}</h4>
                       </div>
                       <div className="button-group">
                         <Link to="/cart" className="btn btn-sm cart-button">
