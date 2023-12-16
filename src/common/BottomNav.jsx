@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import { useProductProvider } from "../ContextAPI/ProductContext";
 
 export default function BottomNav() {
-
-  const { AllCategory, NavFilter } = useProductProvider()
+  const { AllCategory, NavFilter, cart, wish } = useProductProvider();
   return (
     <>
       <div className="container-fluid-lg bot_nav">
@@ -38,9 +37,7 @@ export default function BottomNav() {
                         </Link>
                       </li>
                       <li className="nav-item dropdown">
-                        <Link
-                          className="nav-link dropdown-toggle"
-                        >
+                        <Link className="nav-link dropdown-toggle">
                           CATEGORIES
                         </Link>
                         <ul className="dropdown-menu">
@@ -55,7 +52,7 @@ export default function BottomNav() {
                                   {items.name}
                                 </Link>
                               </li>
-                            )
+                            );
                           })}
                         </ul>
                       </li>
@@ -116,69 +113,52 @@ export default function BottomNav() {
               <div className="rightside-menu">
                 <ul className="option-list-2">
                   <li>
-                    <Link href="!" className="header-icon search-box search-icon">
+                    <Link
+                      href="!"
+                      className="header-icon search-box search-icon"
+                    >
                       <i className="fa-solid fa-cart-shopping" />
                     </Link>
                   </li>
                   <li className="onhover-dropdown">
-                    <Link href="!" className="header-icon swap-icon">
+                    <Link to="/cart" className="header-icon swap-icon">
                       <i className="fa-solid fa-cart-shopping" />
                     </Link>
                     <div className="onhover-div">
                       <ul className="cart-list">
-                        <li>
-                          <div className="drop-cart">
-                            <Link
-                              href="product-left-thumbnail.html"
-                              className="drop-image"
-                            >
-                              <img
-                                src="images/vegetable/product/1.png"
-                                className="blur-up lazyload"
-                                alt=""
-                              />
-                            </Link>
-                            <div className="drop-contain">
-                              <Link href="product-left-thumbnail.html">
-                                <h5>Fantasy Crunchy Choco Chip Cookies</h5>
-                              </Link>
-                              <h6>
-                                <span>1 x</span> $80.58
-                              </h6>
-                              <button className="close-button">
-                                <i className="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="drop-cart">
-                            <Link
-                              href="product-left-thumbnail.html"
-                              className="drop-image"
-                            >
-                              <img
-                                src="images/vegetable/product/2.png"
-                                className="blur-up lazyload"
-                                alt=""
-                              />
-                            </Link>
-                            <div className="drop-contain">
-                              <Link href="product-left-thumbnail.html">
-                                <h5>
-                                  Peanut Butter Bite Premium Butter Cookies 600
-                                  g
-                                </h5>
-                              </Link>
-                              <h6>
-                                <span>1 x</span> $25.68
-                              </h6>
-                              <button className="close-button">
-                                <i className="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                          </div>
-                        </li>
+                        <li></li>
+                        {cart.map((items) => {
+                          return (
+                            <>
+                              <li key={items.id}>
+                                <div className="drop-cart">
+                                  <Link
+                                    href="product-left-thumbnail.html"
+                                    className="drop-image"
+                                  >
+                                    <img
+                                      src={items.thumbnail}
+                                      className="blur-up lazyload"
+                                      alt=""
+                                    />
+                                  </Link>
+                                  <div className="drop-contain">
+                                    <Link>
+                                      <h5>{items.name}</h5>
+                                    </Link>
+                                    <h6>
+                                      <span>{items.quantity}x</span> $
+                                      {items.offerPrice}
+                                    </h6>
+                                    <button className="close-button">
+                                      <i className="fa-solid fa-xmark" />
+                                    </button>
+                                  </div>
+                                </div>
+                              </li>
+                            </>
+                          );
+                        })}
                       </ul>
                       <div className="price-box">
                         <h5>Price :</h5>
@@ -204,76 +184,38 @@ export default function BottomNav() {
                     </Link>
                     <div className="onhover-div">
                       <ul className="cart-list">
-                        <li>
-                          <div className="drop-cart">
-                            <Link
-                              href="product-left-thumbnail.html"
-                              className="drop-image"
-                            >
-                              <img
-                                src="images/vegetable/product/1.png"
-                                className="blur-up lazyload"
-                                alt=""
-                              />
-                            </Link>
-                            <div className="drop-contain">
-                              <Link href="product-left-thumbnail.html">
-                                <h5>Fantasy Crunchy Choco Chip Cookies</h5>
-                              </Link>
-                              <h6>
-                                <span>1 x</span> $80.58
-                              </h6>
-                              <button className="close-button">
-                                <i className="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="drop-cart">
-                            <Link
-                              href="product-left-thumbnail.html"
-                              className="drop-image"
-                            >
-                              <img
-                                src="images/vegetable/product/2.png"
-                                className="blur-up lazyload"
-                                alt=""
-                              />
-                            </Link>
-                            <div className="drop-contain">
-                              <Link href="product-left-thumbnail.html">
-                                <h5>
-                                  Peanut Butter Bite Premium Butter Cookies 600
-                                  g
-                                </h5>
-                              </Link>
-                              <h6>
-                                <span>1 x</span> $25.68
-                              </h6>
-                              <button className="close-button">
-                                <i className="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                          </div>
-                        </li>
+                        <li></li>
+                        {wish.map((items) => {
+                          return (
+                            <>
+                              <li>
+                                <div className="drop-cart">
+                                  <Link className="drop-image">
+                                    <img
+                                      src={items.thumbnail}
+                                      className="blur-up lazyload"
+                                      alt=""
+                                    />
+                                  </Link>
+                                  <div className="drop-contain">
+                                    <Link>
+                                      <h5>
+                                       {items.name}
+                                      </h5>
+                                    </Link>
+                                    <h6>
+                                      <span>{items.quantity} x</span> ${items.offerPrice}
+                                    </h6>
+                                    <button className="close-button">
+                                      <i className="fa-solid fa-xmark" />
+                                    </button>
+                                  </div>
+                                </div>
+                              </li>
+                            </>
+                          );
+                        })}
                       </ul>
-                      <div className="price-box">
-                        <h5>Price :</h5>
-                        <h4 className="theme-color fw-bold">$106.58</h4>
-                      </div>
-                      <div className="button-group">
-                        <Link href="cart.html" className="btn btn-sm cart-button">
-                          View Cart
-                        </Link>
-                        <Link
-                          href="checkout.html"
-                          className="btn btn-sm cart-button theme-bg-color
-                                              text-white"
-                        >
-                          Checkout
-                        </Link>
-                      </div>
                     </div>
                   </li>
                 </ul>

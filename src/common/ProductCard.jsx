@@ -10,7 +10,7 @@ export default function ProductCard(props) {
         <div className="product-image product-image-2">
           <a href="!">
             <img
-              src="images/grocery/product/fruits-vegetables/1.png"
+              src={props.thumbnail}
               className="img-fluid blur-up lazyload"
               alt=""
             />
@@ -55,10 +55,10 @@ export default function ProductCard(props) {
             </li>
           </ul>
           <a href="!">
-            <h5 className="name text-title">Bell pepper</h5>
+            <h5 className="name text-title">{props.name}</h5>
           </a>
           <h5 className="price theme-color">
-            $65.21<del>$71.25</del>
+            ${props.offerPrice}<del>${props.price}</del>
           </h5>
           <div className="addtocart_btn">
             <button className="add-button addcart-button btn buy-button text-light">

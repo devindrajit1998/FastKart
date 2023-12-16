@@ -297,3 +297,26 @@ const categories = [
 ];
 
 export default categories;
+
+
+
+// const {
+//   id,
+//   category,
+//   subcategory,
+//   subSubcategory,
+//   name,
+//   brand,
+//   model,
+//   description,
+//   specifications,
+//   price,
+//   offerPrice,
+//   stock,
+//   thumbnail,
+//   images,
+//   ratings,
+//   reviews,
+//   saleAvailable,
+//   featured,
+// }

@@ -3,7 +3,7 @@ import React from "react";
 import { useProductProvider } from "../ContextAPI/ProductContext";
 
 export default function ProductBox(props) {
-  const { ToggleModal, addCart } = useProductProvider();
+  const { ToggleModal, addCart, addWish } = useProductProvider();
   const {
     id,
     category,
@@ -48,7 +48,7 @@ export default function ProductBox(props) {
                     <i className="fa-solid fa-cart-shopping" />
                   </a>
                 </li>
-                <li>
+                <li onClick={()=>addWish(id)}>
                   <a class="notifi-wishlist">
                     <i className="fa-solid fa-heart" />
                   </a>

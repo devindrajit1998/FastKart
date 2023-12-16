@@ -6,7 +6,7 @@ import ProductModal from "../common/ProductModal";
 import { useProductProvider } from "../ContextAPI/ProductContext";
 
 export default function ProductSlider(props) {
-  const {openModal} = useProductProvider()
+  const {openModal, AllData} = useProductProvider()
   return (
     <>
       <div className="title">
@@ -21,27 +21,6 @@ export default function ProductSlider(props) {
               loop="true"
               autoplay="true"
             >
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
               <SwiperSlide>
                 <ProductCard />
               </SwiperSlide>

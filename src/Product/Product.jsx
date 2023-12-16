@@ -3,8 +3,16 @@ import Layout from '../Layout/Layout'
 import Breadcum from '../common/Breadcum'
 import ImageSlider from './ImageSlider'
 import RightBox from './RightBox'
+import { useParams } from 'react-router-dom'
+import { useProductProvider } from '../ContextAPI/ProductContext'
 
 export default function Product() {
+    const {id}= useParams()
+    const numericId = parseInt(id);
+    const {AllData} = useProductProvider();
+
+    const filterSingle = AllData.find((items)=>items.id === numericId);
+    // console.log("single filter ===============>",filterSingle)
     return (
         <>
             <Layout />
@@ -22,25 +30,21 @@ export default function Product() {
                                     style={{ visibility: "visible", animationName: "fadeInUp" }}>
                                     <div className="product-left-box">
                                         <div className="row g-2">
-                                            <ImageSlider />
+                                            <ImageSlider filterSingle={filterSingle} />
 
                                         </div>
                                     </div>
                                 </div>
                                 <div
                                     className="col-xl-6 wow fadeInUp"
-                                    data-wow-delay="0.1s"
-                                    style={{
-                                        visibility: "visible",
+                                    style={{visibility: "visible",
                                         animationDelay: "0.1s",
-                                        animationName: "fadeInUp"
-                                    }}
-                                >
-                                    <RightBox />
+                                        animationName: "fadeInUp"}}>
+                                    <RightBox filterSingle={filterSingle} />
                                 </div>
-                                <div className="col-12">
+                                {/* <div className="col-12">
                                     <div class="tab-content custom-tab">
-                                        <div className="tab-pane">
+                                        <div className="tab-pane d-block">
                                             <div className="table-responsive">
                                                 <table className="table info-table">
                                                     <tbody>
@@ -81,7 +85,7 @@ export default function Product() {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

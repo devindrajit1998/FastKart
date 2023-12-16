@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import categories from "../API/Category";
 import ProductsAPI from "../API/ProductsAPI";
+import { useParams } from "react-router-dom";
 // import end ------------------------------------------------->
 
 const ProductContext = createContext();
@@ -11,15 +12,21 @@ const ProductProvider = ({ children }) => {
   // ----------------------------------------------------------------------------------------
   // ----------------------------------- Common States ------------------------------------->
   // ----------------------------------------------------------------------------------------
-  // for modal management----- >
+  // for modal management -------- >
   const [openModal, setOpenModal] = useState(false);
   // const [getId, setGetId] = useState();
-  const [modalData, setModalData] = useState([])
-  // for category filter------ >
+  const [modalData, setModalData] = useState([]);
+  // for category filter --------- >
   const [shopData, setShopData] = useState(AllData);
 
-  // for add to cart ------- >
+  // for add to cart ------------- >
   const [cart, setCart] = useState([]);
+
+  // for add to wishlist --------- >
+  const [wish, setWish] = useState([]);
+
+  // to pass id ------------------->
+  const {id} = useParams();
 
   // ----------------------------------------------------------------------------------------
   // ----------------------------------- Common States ------------------------------------->
@@ -31,34 +38,55 @@ const ProductProvider = ({ children }) => {
   // Open Quick Modal Start -------------->
   const ToggleModal = (id) => {
     setOpenModal(!openModal);
-    FindModalData(id)
+    FindModalData(id);
   };
 
   // <---------------- Open Quick Modal End
 
-  // function to find the id --------------->
+  // function to find the id -------------->
 
   const FindModalData = (id) => {
     const MData = AllData.find((item) => {
-      return item.id === id
-    })
-    setModalData(MData)
-  }
+      return item.id === id;
+    });
+    setModalData(MData);
+  };
 
-  useEffect(() => {
-  }, [modalData]);
+  useEffect(() => {}, [modalData]);
   // <---------------- function to find the id
 
-  // add to cart function --------------->
+  // add to cart function ------------------->
 
   const addCart = (id) => {
-    const filterData = AllData.find((items) => items.id === id);
-    setCart((curElem)=>[...curElem,filterData ])
-    console.log("filterData", cart)
-  }
+    const findDuplicate = cart.find((items) => items.id === id);
+if(!findDuplicate){
+  const filterData = AllData.find((items) => items.id === id);
+  const newData = {...filterData, quantity: 1}
+  setCart((curElem) => [...curElem, newData]);
+  // console.log("new cart", cart)
+} else {
+  const updatedCart = cart.map((item)=>item.id === id ? ({...item, quantity:item.quantity + 1}): item)
+  setCart(updatedCart )
+}
+  };
+  useEffect(() => {
+    // console.log("cart item", cart);
+  }, [cart]);
+
+  // <-------------------- add to cart function
+  // ******************************************
+  // add to wish function ------------------->
+const addWish = (id)=>{
 
 
+const filterWish = AllData.find((items)=>items.id === id)
+setWish((curElem)=>[...curElem, filterWish])
+} 
+useEffect(()=>{
+  console.log("wish items",wish)
+},[wish])
 
+  // <-------------------- add to cart function
   // ----------------------------------------------------------------------------------------
   // --------------------------------- Basic Functions End --------------------------------->
   // ----------------------------------------------------------------------------------------
@@ -67,12 +95,12 @@ const ProductProvider = ({ children }) => {
   // ------------------------------ Category Data Management ------------------------------->
   // ----------------------------------------------------------------------------------------
 
-
-  // manage navigation menu category filter ----->
+  // manage navigation menu category filter ---------------->
   const NavFilter = (category) => {
-    const filCate = AllData.filter((items) => items.category === category)
-    setShopData(filCate)
-  }
+    const filCate = AllData.filter((items) => items.category === category);
+    setShopData(filCate);
+  };
+  // <---------------- manage navigation menu category filter
   // ----------------------------------------------------------------------------------------
   // ------------------------------ Category Data Management ------------------------------->
   // ----------------------------------------------------------------------------------------
@@ -80,7 +108,6 @@ const ProductProvider = ({ children }) => {
   // ----------------------------------------------------------------------------------------
   // ----------------------------- Shop Page Data Management ------------------------------->
   // ----------------------------------------------------------------------------------------
-
 
   //Category Filter Function Start --------------------->
   const filterByCategory = (category) => {
@@ -90,7 +117,7 @@ const ProductProvider = ({ children }) => {
     setShopData(filteredCategory);
     console.log("filterCategoy", filteredCategory);
   };
-
+  // <-------------------- Category Filter Function Start
   // ----------------------------------------------------------------------------------------
   // ----------------------------- Shop Page Data Management ------------------------------->
   // ----------------------------------------------------------------------------------------
@@ -105,7 +132,11 @@ const ProductProvider = ({ children }) => {
         filterByCategory,
         NavFilter,
         modalData,
-        addCart
+        addCart,
+        cart,
+        AllData,
+        addWish,
+        wish
       }}
     >
       {children}

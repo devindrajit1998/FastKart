@@ -2,9 +2,10 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { useProductProvider } from "../ContextAPI/ProductContext";
+import { Link } from "react-router-dom";
 
 export default function CategorySlider() {
-  const { AllCategory } = useProductProvider();
+  const { AllCategory, NavFilter } = useProductProvider();
 
   return (
     <>
@@ -25,13 +26,13 @@ export default function CategorySlider() {
                       alt=""
                     />
                   </a>
-                  <button
-                    onclick="location.href = 'shop-left-sidebar.html';"
+                  <Link to="/shop"
+                    onClick={()=>NavFilter(curElem.name)}
                     className="btn shop-button"
                   >
                     <span>Shop Now</span>
                     <i className="fas fa-angle-right" />
-                  </button>
+                  </Link>
                 </div>
               </div>
             </SwiperSlide>

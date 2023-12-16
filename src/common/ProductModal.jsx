@@ -1,9 +1,10 @@
 import React from "react";
 import { useProductProvider } from "../ContextAPI/ProductContext";
+import { Link } from "react-router-dom";
 
 export default function ProductModal(id) {
 
-  const { ToggleModal, modalData } = useProductProvider();
+  const { ToggleModal, modalData, addCart } = useProductProvider();
   const updatedData = [modalData];
   // console.log('new page modal data', updatedData)
 
@@ -27,7 +28,7 @@ export default function ProductModal(id) {
             </div>
 
             {updatedData.map((curElem) => {
-              console.log('new page modal data', updatedData)
+              // console.log('new page modal data', updatedData)
               const {
                 id,
                 category,
@@ -118,17 +119,17 @@ export default function ProductModal(id) {
                           </ul>
                           <div className="modal-button">
                             <button
-                              onclick="location.href = 'cart.html';"
+                              onClick={()=>addCart(id)}
                               className="btn btn-md add-cart-button icon"
                             >
                               Add To Cart
                             </button>
-                            <button
-                              onclick="location.href = 'product-left.html';"
+                            <Link
+                              to={`/product/${id}`}
                               className="btn theme-bg-color view-button icon text-white fw-bold btn-md"
                             >
                               View More Details
-                            </button>
+                            </Link>
                           </div>
                         </div>
                       </div>
