@@ -3,7 +3,7 @@ import React from 'react'
 export default function Sidebar() {
   return (
    <>
-   {/* <div className="sidebar-wrapper">
+<div className="sidebar-wrapper">
   <div id="sidebarEffect" />
   <div>
     <div className="logo-wrapper logo-wrapper-center">
@@ -25,7 +25,7 @@ export default function Sidebar() {
       <a href="index-2.html">
         <img
           className="img-fluid main-logo main-white"
-          src="assets/images/logo/logo.png"
+          src="assets/images/logo/1-white.png"
           alt="logo"
         />
         <img
@@ -54,7 +54,7 @@ export default function Sidebar() {
           <li className="sidebar-list">
             <a
               className="linear-icon-link sidebar-link sidebar-title"
-              href="javascript:void(0)"
+              href="!"
             >
               <i className="ri-store-3-line" />
               <span>Product</span>
@@ -71,7 +71,7 @@ export default function Sidebar() {
           <li className="sidebar-list">
             <a
               className="linear-icon-link sidebar-link sidebar-title"
-              href="javascript:void(0)"
+              href="!"
             >
               <i className="ri-list-check-2" />
               <span>Category</span>
@@ -88,7 +88,7 @@ export default function Sidebar() {
           <li className="sidebar-list">
             <a
               className="linear-icon-link sidebar-link sidebar-title"
-              href="javascript:void(0)"
+              href="!"
             >
               <i className="ri-list-settings-line" />
               <span>Attributes</span>
@@ -103,7 +103,7 @@ export default function Sidebar() {
             </ul>
           </li>
           <li className="sidebar-list">
-            <a className="sidebar-link sidebar-title" href="javascript:void(0)">
+            <a className="sidebar-link sidebar-title" href="!">
               <i className="ri-user-3-line" />
               <span>Users</span>
             </a>
@@ -117,7 +117,7 @@ export default function Sidebar() {
             </ul>
           </li>
           <li className="sidebar-list">
-            <a className="sidebar-link sidebar-title" href="javascript:void(0)">
+            <a className="sidebar-link sidebar-title" href="!">
               <i className="ri-user-3-line" />
               <span>Roles</span>
             </a>
@@ -140,7 +140,7 @@ export default function Sidebar() {
             </a>
           </li>
           <li className="sidebar-list">
-            <a className="sidebar-link sidebar-title" href="javascript:void(0)">
+            <a className="sidebar-link sidebar-title" href="!">
               <i className="ri-archive-line" />
               <span>Orders</span>
             </a>
@@ -159,7 +159,7 @@ export default function Sidebar() {
           <li className="sidebar-list">
             <a
               className="linear-icon-link sidebar-link sidebar-title"
-              href="javascript:void(0)"
+              href="!"
             >
               <i className="ri-focus-3-line" />
               <span>Localization</span>
@@ -176,7 +176,7 @@ export default function Sidebar() {
           <li className="sidebar-list">
             <a
               className="linear-icon-link sidebar-link sidebar-title"
-              href="javascript:void(0)"
+              href="!"
             >
               <i className="ri-price-tag-3-line" />
               <span>Coupons</span>
@@ -220,7 +220,7 @@ export default function Sidebar() {
           <li className="sidebar-list">
             <a
               className="linear-icon-link sidebar-link sidebar-title"
-              href="javascript:void(0)"
+              href="!"
             >
               <i className="ri-settings-line" />
               <span>Settings</span>
@@ -256,8 +256,8 @@ export default function Sidebar() {
       </div>
     </nav>
   </div>
-</div> */}
-<h2>sidebar</h2>
+</div>
+
    </>
   )
 }

@@ -11,7 +11,7 @@ export default function ProductData() {
   }
   return (
     <>
-      <h2 className={`${hide}`}>Please add items to cart !</h2>
+      <h2 className={`border-0 ${hide}`}>Please add items to cart !</h2>
       {cart.map((items) => {
         const {
           id,

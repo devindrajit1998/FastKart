@@ -1,13 +1,14 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import categories from "../API/Category";
 import ProductsAPI from "../API/ProductsAPI";
-import {useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import cuponCode from "../API/CuponCode";
-// import end ------------------------------------------------->
+import BannerData from "../API/BannerData";
+// import end ---------------------------------------------------------------------------->
 
 const ProductContext = createContext();
 const AllCategory = categories;
-// const AllData = ProductsAPI;
+const banner = BannerData;
 const cuponData = cuponCode;
 
 const ProductProvider = ({ children }) => {
@@ -15,11 +16,14 @@ const ProductProvider = ({ children }) => {
   // ----------------------------------- Common States ------------------------------------->
   // ----------------------------------------------------------------------------------------
   // global store data ---------------------->
-  const [allData, setAllData]= useState(ProductsAPI);
+  const [allData, setAllData] = useState(ProductsAPI);
+
   // for modal management ------------------->
   const [openModal, setOpenModal] = useState(false);
+
   // const [getId, setGetId] = useState();
   const [modalData, setModalData] = useState([]);
+
   // for category filter ------------------- >
   const [shopData, setShopData] = useState(allData);
 
@@ -34,11 +38,20 @@ const ProductProvider = ({ children }) => {
 
   // to manage cart quantity stage ---------->
   const [quantity, setQuantity] = useState();
+
   // to manage cart quantity stage ---------->
   const [total, setTotal] = useState(0);
+
   // to get cupon data ---------------------->
   const [cupon, setCupon] = useState();
   const [cuponDiscount, setCuponDiscount] = useState(0);
+
+  // for featured data ---------------------->
+  const [featured, setFeatured] = useState([]);
+
+  // for on sale data ----------------------->
+  const [sale, setSale] = useState([]);
+
   // ----------------------------------------------------------------------------------------
   // ----------------------------------- Common States ------------------------------------->
   // ----------------------------------------------------------------------------------------
@@ -74,7 +87,6 @@ const ProductProvider = ({ children }) => {
       const filterData = allData.find((items) => items.id === id);
       const newData = { ...filterData, quantity: 1 };
       setCart((curElem) => [...curElem, newData]);
-      // console.log("new cart", cart)
     } else {
       const updatedCart = cart.map((item) =>
         item.id === id ? { ...item, quantity: item.quantity + 1 } : item
@@ -168,7 +180,6 @@ const ProductProvider = ({ children }) => {
   // remove single function -------------------------------->
   const removeSingle = (id) => {
     const removeItem = cart.filter((items) => items.id !== id);
-    // console.log('remove====>', removeItem)
     setCart(removeItem);
   };
 
@@ -176,33 +187,32 @@ const ProductProvider = ({ children }) => {
   // ********************************************************
   // add to wish function ---------------------------------->
   const addWish = (id) => {
-    const findWish = wish.find((item)=>item.id === id);
-    if(!findWish){
-     const addWishQuantity = allData.find((items)=>items.id === id)
-     setWish((item)=>[...item, addWishQuantity])
-    } else{
-      const incrWish = wish.map((item)=>item.id === id ? (item) : item);
+    const findWish = wish.find((item) => item.id === id);
+    if (!findWish) {
+      const addWishQuantity = allData.find((items) => items.id === id);
+      setWish((item) => [...item, addWishQuantity]);
+    } else {
+      const incrWish = wish.map((item) => (item.id === id ? item : item));
       setWish(incrWish);
     }
   };
 
   // remove single wishlist item
 
-  const removeSingleWish = (id)=>{
-    const finstWishItem = wish.filter((item)=> item.id !== id)
-    setWish(finstWishItem)
-  }
+  const removeSingleWish = (id) => {
+    const finstWishItem = wish.filter((item) => item.id !== id);
+    setWish(finstWishItem);
+  };
 
-  useEffect(()=>{
-    const localWish =  JSON.parse(localStorage.getItem("wishItem"))
-if(localWish && localWish.length > 0){
-  setWish(localWish)
-}
-  },[])
+  useEffect(() => {
+    const localWish = JSON.parse(localStorage.getItem("wishItem"));
+    if (localWish && localWish.length > 0) {
+      setWish(localWish);
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("wishItem", JSON.stringify(wish));
-    console.log("wish items", wish);
   }, [wish]);
 
   // <----------------------------------- add to cart function
@@ -214,12 +224,44 @@ if(localWish && localWish.length > 0){
   // ------------------------------ Category Data Management ------------------------------->
   // ----------------------------------------------------------------------------------------
 
-  // manage navigation menu category filter ------------>
+  // manage navigation menu category filter ---------------->
   const NavFilter = (category) => {
     const filCate = allData.filter((items) => items.category === category);
     setShopData(filCate);
   };
   // <---------------- manage navigation menu category filter
+  // manage sale & featured data ---------------------------->
+
+  // feature data ----->
+  const getFeature = () => {
+    const newFeature = allData.filter((item) => item.featured === true);
+    setFeatured(newFeature);
+    localStorage.setItem('featuredData', JSON.stringify(newFeature));
+  };
+  
+  useEffect(() => {
+    const storedFeatureData = localStorage.getItem('featuredData');
+    if (storedFeatureData) {
+      const parsedFeaturedData = JSON.parse(storedFeatureData);
+      setFeatured(parsedFeaturedData);
+    } else {
+      getFeature(); 
+    }
+   
+  }, []);
+
+  // sale data ------>
+
+  const saleData = ()=>{
+    const getSale = allData.filter((item)=>item.saleAvailable === true);
+    setSale(getSale)
+  }
+
+  useEffect(()=>{
+    saleData()
+  },[])
+
+  // <---------------------------- manage sale & featured data
   // ----------------------------------------------------------------------------------------
   // ------------------------------ Category Data Management ------------------------------->
   // ----------------------------------------------------------------------------------------
@@ -234,7 +276,6 @@ if(localWish && localWish.length > 0){
       return item.category === category;
     });
     setShopData(filteredCategory);
-    console.log("filterCategoy", filteredCategory);
   };
   // <-------------------- Category Filter Function Start
   // ----------------------------------------------------------------------------------------
@@ -267,7 +308,10 @@ if(localWish && localWish.length > 0){
         finalTotalSave,
         cuponDiscount,
         offerDiscount,
-        removeSingleWish
+        removeSingleWish,
+        featured,
+        sale,
+        banner
       }}
     >
       {children}

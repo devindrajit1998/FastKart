@@ -6,11 +6,12 @@ import ProductModal from "../common/ProductModal";
 import { useProductProvider } from "../ContextAPI/ProductContext";
 
 export default function ProductSlider(props) {
-  const {openModal, AllData} = useProductProvider()
+  const { openModal, AllData, ToggleModal } = useProductProvider();
+  const { data } = props;
   return (
     <>
       <div className="title">
-        <h2 >{props.title}</h2>
+        <h2>{props.title}</h2>
       </div>
       <div className="row">
         <div className="col-12">
@@ -21,17 +22,20 @@ export default function ProductSlider(props) {
               loop="true"
               autoplay="true"
             >
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
+              {data.map((items) => {
+                return (
+                  <>
+                    <SwiperSlide>
+                      <ProductCard items={items} />
+                    </SwiperSlide>
+                  </>
+                );
+              })}
             </Swiper>
           </div>
         </div>
       </div>
-      {openModal && (
-        <ProductModal/>
-      )}
-      
+      {openModal && <ProductModal />}
     </>
   );
 }

@@ -1,33 +1,32 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { useProductProvider } from "../ContextAPI/ProductContext";
+import { useParams } from "react-router-dom";
 
 export default function ProductCard(props) {
-  const {ToggleModal} = useProductProvider()
+  const { ToggleModal } = useProductProvider();
+  const { items } = props;
+
   return (
     <>
-      <div className="product-box-4 wow fadeInUp">
+      <div className="product-box-4 wow fadeInUp" key={items.id}>
         <div className="product-image product-image-2">
           <a href="!">
             <img
-              src={props.thumbnail}
+              src={items.thumbnail}
               className="img-fluid blur-up lazyload"
               alt=""
             />
           </a>
           <ul className="option">
-            <li className="pointer" onClick={ToggleModal}
-             
-            >
-              <a >
-              <i className="fa-solid fa-eye" />
+            <li className="pointer" onClick={()=>ToggleModal(items.id)}>
+              <a>
+                <i className="fa-solid fa-eye" />
               </a>
             </li>
-            <li
-             className="pointer"
-            >
+            <li className="pointer">
               <a href="!" className="notifi-wishlist">
-              <i className="fa-solid fa-heart" />
+                <i className="fa-solid fa-heart" />
               </a>
             </li>
           </ul>
@@ -36,29 +35,26 @@ export default function ProductCard(props) {
           <ul className="rating">
             <li>
               <i className="fa-regular fa-star" />
-
             </li>
             <li>
               <i className="fa-regular fa-star" />
-
             </li>
             <li>
               <i className="fa-regular fa-star" />
-
             </li>
             <li>
               <i className="fa-regular fa-star" />
-
             </li>
             <li>
-              <i data-feather="star" />
+            <i className="fa-regular fa-star" />
             </li>
           </ul>
           <a href="!">
-            <h5 className="name text-title">{props.name}</h5>
+            <h5 className="name text-title">{items.name}</h5>
           </a>
           <h5 className="price theme-color">
-            ${props.offerPrice}<del>${props.price}</del>
+            ${items.offerPrice}
+            <del>${items.price}</del>
           </h5>
           <div className="addtocart_btn">
             <button className="add-button addcart-button btn buy-button text-light">

@@ -3,14 +3,16 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import AddProducts from "../products/AddProducts";
 
+
 export default function AdminLayout() {
   return (
     <>
-      <div className="page-wrapper compact-wrapper" id="pageWrapper">
+      <div className="page-wrapper compact-wrapper">
         <Header />
-          {/* <Sidebar /> */}
+        <div class="page-body-wrapper">
+          <Sidebar/>
           <AddProducts/>
-       
+        </div>
       </div>
     </>
   );

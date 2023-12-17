@@ -4,8 +4,11 @@ import MainSlider from "./MainSlider";
 import MiniSlider from "./MiniSlider";
 import CategorySlider from "./CategorySlider";
 import ProductSlider from "./ProductSlider";
+import { useProductProvider } from "../ContextAPI/ProductContext";
 
 export default function Home() {
+  const{sale,featured} = useProductProvider();
+
   return (
     <>
       <Layout />
@@ -39,7 +42,7 @@ export default function Home() {
       </section>
       <section className="product-section-3">
         <div className="container-fluid-lg">
-          <ProductSlider title="Electronics Products" sliderCount={7} />
+          <ProductSlider title="Featured Products" sliderCount={7} data={featured}/>
         </div>
       </section>
       {/* <section className="product-section product-section-3">
@@ -58,14 +61,14 @@ export default function Home() {
       </section> */}
       <section className="product-section-3">
         <div className="container-fluid-lg">
-          <ProductSlider title="Fashion Gallery" sliderCount={7} />
+          <ProductSlider title="On Sale Products" sliderCount={7} data={sale}/>
         </div>
       </section>
-      <section className="product-section-3">
+      {/* <section className="product-section-3">
         <div className="container-fluid-lg">
-          <ProductSlider title="Home & Living" sliderCount={7} />
+          <ProductSlider title="Home & Living" sliderCount={7} data={sale}/>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }

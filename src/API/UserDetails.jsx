@@ -1,4 +1,4 @@
 const UserDetails = [
-    { id: 1, userName: "indrajit@user.com", password: "123456789" },
+    { id: 1, name:"indrajit Ghosh", userName: "indrajit@user.com", password: "123456789" },
   ];
   

@@ -6,7 +6,7 @@ export default function ProductModal(id) {
 
   const { ToggleModal, modalData, addCart } = useProductProvider();
   const updatedData = [modalData];
-  // console.log('new page modal data', updatedData)
+  
 
 
   return (

@@ -65,3 +65,21 @@
 .btn.btn-light.shopping-button.text-dark {
 	border: 1px solid #222;
 }
+
+select, textarea, input {
+  border: 1px solid #eee;
+  border-radius: 5px;
+}
+
+table{
+  border: none;
+}
+
+.passmodal{
+  position: fixed;
+  z-index: 99;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+}

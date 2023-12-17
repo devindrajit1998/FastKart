@@ -6,6 +6,9 @@ import Cart from "./Cart/Cart";
 import Product from "./Product/Product";
 import CheckOut from "./checkout/CheckOut";
 import Dashboard from "./Admin/dashboard/Dashboard";
+import Signup from "./common/auth/Signup";
+import Login from "./common/auth/Login";
+import User from "./user/User";
 
 function App() {
   return (
@@ -17,6 +20,9 @@ function App() {
           <Route path="/cart" element={<Cart/>} />
           <Route path="/product/:id" element={<Product/>}/>
           <Route path="/checkout" element={<CheckOut/>}/>
+          <Route path="/signup" element={<Signup/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/Profile" element={<User/>}/>
         </Routes>
         <Routes>
           <Route path="/dashboard" element={<Dashboard/>}/>
