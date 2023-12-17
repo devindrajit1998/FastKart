@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { useProductProvider } from "../ContextAPI/ProductContext";
+import { Link } from "react-router-dom";
 
 export default function ProductBox(props) {
   const { ToggleModal, addCart, addWish } = useProductProvider();
@@ -30,13 +31,13 @@ export default function ProductBox(props) {
         <div className="product-box-3 h-100 wow fadeInUp pointer">
           <div className="product-header">
             <div className="product-image">
-              <a href="product-left-thumbnail.html">
+              <Link to={`/product/${id}`}>
                 <img
                   src={thumbnail}
                   className="img-fluid blur-up lazyload"
                   alt=""
                 />
-              </a>
+              </Link>
               <ul class="product-option">
                 <li onClick={()=>ToggleModal(id)}>
                   <a>

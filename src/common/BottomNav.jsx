@@ -3,7 +3,20 @@ import { Link } from "react-router-dom";
 import { useProductProvider } from "../ContextAPI/ProductContext";
 
 export default function BottomNav() {
-  const { AllCategory, NavFilter, cart, wish, total} = useProductProvider();
+  const { AllCategory, NavFilter, cart, wish, total, removeSingle, removeSingleWish } =
+    useProductProvider();
+  let link = "";
+let hideCart =""
+  if (cart.length > 0) {
+    link = "/checkout";
+    hideCart= "d-none"
+  } else {
+    link = "";
+  }
+  let hidewish = ""
+  if(wish.length > 0){
+    hidewish = "d-none"
+  }
   return (
     <>
       <div className="container-fluid-lg bot_nav">
@@ -36,7 +49,7 @@ export default function BottomNav() {
                           SHOP
                         </Link>
                       </li>
-                      <li className="nav-item dropdown">
+                      {/* <li className="nav-item dropdown">
                         <Link className="nav-link dropdown-toggle">
                           CATEGORIES
                         </Link>
@@ -55,8 +68,8 @@ export default function BottomNav() {
                             );
                           })}
                         </ul>
-                      </li>
-                      <li className="nav-item dropdown dropdown-mega">
+                      </li> */}
+                      {/* <li className="nav-item dropdown dropdown-mega">
                         <Link
                           className="nav-link dropdown-toggle ps-xl-2 ps-0"
                           href="!"
@@ -100,12 +113,12 @@ export default function BottomNav() {
                             <div className="dropdown-column dropdown-column-img col-3" />
                           </div>
                         </div>
-                      </li>
-                      <li className="nav-item ">
-                        <Link to="/cart" className="nav-link  ps-0" href="!">
+                      </li> */}
+                      {/* <li className="nav-item ">
+                        <Link to="/cart" className="nav-link  ps-0" >
                           CART
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>
@@ -127,13 +140,14 @@ export default function BottomNav() {
                     <div className="onhover-div">
                       <ul className="cart-list">
                         <li></li>
+                        <h4 className={hideCart}>Your cart is empty !</h4>
                         {cart.map((items) => {
                           return (
                             <>
                               <li key={items.id}>
                                 <div className="drop-cart">
                                   <Link
-                                    href="product-left-thumbnail.html"
+                                    to={`/product/${items.id}`}
                                     className="drop-image"
                                   >
                                     <img
@@ -143,14 +157,17 @@ export default function BottomNav() {
                                     />
                                   </Link>
                                   <div className="drop-contain">
-                                    <Link>
+                                    <Link to={`/product/${items.id}`}>
                                       <h5>{items.name}</h5>
                                     </Link>
                                     <h6>
                                       <span>{items.quantity}x</span> $
                                       {items.offerPrice}
                                     </h6>
-                                    <button className="close-button">
+                                    <button
+                                      className="close-button"
+                                      onClick={() => removeSingle(items.id)}
+                                    >
                                       <i className="fa-solid fa-xmark" />
                                     </button>
                                   </div>
@@ -169,7 +186,7 @@ export default function BottomNav() {
                           View Cart
                         </Link>
                         <Link
-                          href="checkout.html"
+                          to={link}
                           className="btn btn-sm cart-button theme-bg-color
                                               text-white"
                         >
@@ -185,12 +202,17 @@ export default function BottomNav() {
                     <div className="onhover-div">
                       <ul className="cart-list">
                         <li></li>
+                        <h4 className={hidewish}>Wishlish is empty !</h4>
                         {wish.map((items) => {
                           return (
                             <>
                               <li>
                                 <div className="drop-cart">
-                                  <Link className="drop-image">
+                                  
+                                  <Link
+                                    className="drop-image"
+                                    to={`/product/${items.id}`}
+                                  >
                                     <img
                                       src={items.thumbnail}
                                       className="blur-up lazyload"
@@ -198,15 +220,11 @@ export default function BottomNav() {
                                     />
                                   </Link>
                                   <div className="drop-contain">
-                                    <Link>
-                                      <h5>
-                                       {items.name}
-                                      </h5>
+                                    <Link to={`/product/${items.id}`}>
+                                      <h5>{items.name}</h5>
                                     </Link>
-                                    <h6>
-                                      <span>{items.quantity} x</span> ${items.offerPrice}
-                                    </h6>
-                                    <button className="close-button">
+                                    <h6>${items.offerPrice}</h6>
+                                    <button className="close-button" onClick={()=>removeSingleWish(items.id)}>
                                       <i className="fa-solid fa-xmark" />
                                     </button>
                                   </div>

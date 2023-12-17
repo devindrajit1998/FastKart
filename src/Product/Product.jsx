@@ -9,9 +9,9 @@ import { useProductProvider } from '../ContextAPI/ProductContext'
 export default function Product() {
     const {id}= useParams()
     const numericId = parseInt(id);
-    const {AllData} = useProductProvider();
+    const {allData} = useProductProvider();
 
-    const filterSingle = AllData.find((items)=>items.id === numericId);
+    const filterSingle = allData.find((items)=>items.id === numericId);
     // console.log("single filter ===============>",filterSingle)
     return (
         <>

@@ -1,40 +1,42 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import categories from "../API/Category";
 import ProductsAPI from "../API/ProductsAPI";
-import { useParams } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import cuponCode from "../API/CuponCode";
 // import end ------------------------------------------------->
 
 const ProductContext = createContext();
 const AllCategory = categories;
-const AllData = ProductsAPI;
+// const AllData = ProductsAPI;
 const cuponData = cuponCode;
 
 const ProductProvider = ({ children }) => {
   // ----------------------------------------------------------------------------------------
   // ----------------------------------- Common States ------------------------------------->
   // ----------------------------------------------------------------------------------------
-  // for modal management -------- >
+  // global store data ---------------------->
+  const [allData, setAllData]= useState(ProductsAPI);
+  // for modal management ------------------->
   const [openModal, setOpenModal] = useState(false);
   // const [getId, setGetId] = useState();
   const [modalData, setModalData] = useState([]);
-  // for category filter --------- >
-  const [shopData, setShopData] = useState(AllData);
+  // for category filter ------------------- >
+  const [shopData, setShopData] = useState(allData);
 
-  // for add to cart ------------- >
+  // for add to cart ------------------------>
   const [cart, setCart] = useState([]);
 
-  // for add to wishlist --------- >
+  // for add to wishlist -------------------->
   const [wish, setWish] = useState([]);
 
-  // to pass id ------------------->
+  // to pass id ----------------------------->
   const { id } = useParams();
 
   // to manage cart quantity stage ---------->
   const [quantity, setQuantity] = useState();
   // to manage cart quantity stage ---------->
   const [total, setTotal] = useState(0);
-  // to get cupon data ------------------>
+  // to get cupon data ---------------------->
   const [cupon, setCupon] = useState();
   const [cuponDiscount, setCuponDiscount] = useState(0);
   // ----------------------------------------------------------------------------------------
@@ -52,10 +54,10 @@ const ProductProvider = ({ children }) => {
 
   // <---------------- Open Quick Modal End
 
-  // function to find the id -------------->
+  // function to find the id ------------->
 
   const FindModalData = (id) => {
-    const MData = AllData.find((item) => {
+    const MData = allData.find((item) => {
       return item.id === id;
     });
     setModalData(MData);
@@ -69,7 +71,7 @@ const ProductProvider = ({ children }) => {
   const addCart = (id) => {
     const findDuplicate = cart.find((items) => items.id === id);
     if (!findDuplicate) {
-      const filterData = AllData.find((items) => items.id === id);
+      const filterData = allData.find((items) => items.id === id);
       const newData = { ...filterData, quantity: 1 };
       setCart((curElem) => [...curElem, newData]);
       // console.log("new cart", cart)
@@ -119,7 +121,7 @@ const ProductProvider = ({ children }) => {
   // cart total price management function ---------------->
   const getSubtotal = () => {
     const subTotal = cart.reduce((acc, obj) => {
-      return acc + obj.offerPrice * obj.quantity;
+      return acc + obj.price * obj.quantity;
     }, 0);
     const updateCart = subTotal.toFixed(2);
     setTotal(updateCart);
@@ -174,10 +176,32 @@ const ProductProvider = ({ children }) => {
   // ********************************************************
   // add to wish function ---------------------------------->
   const addWish = (id) => {
-    const filterWish = AllData.find((items) => items.id === id);
-    setWish((curElem) => [...curElem, filterWish]);
+    const findWish = wish.find((item)=>item.id === id);
+    if(!findWish){
+     const addWishQuantity = allData.find((items)=>items.id === id)
+     setWish((item)=>[...item, addWishQuantity])
+    } else{
+      const incrWish = wish.map((item)=>item.id === id ? (item) : item);
+      setWish(incrWish);
+    }
   };
+
+  // remove single wishlist item
+
+  const removeSingleWish = (id)=>{
+    const finstWishItem = wish.filter((item)=> item.id !== id)
+    setWish(finstWishItem)
+  }
+
+  useEffect(()=>{
+    const localWish =  JSON.parse(localStorage.getItem("wishItem"))
+if(localWish && localWish.length > 0){
+  setWish(localWish)
+}
+  },[])
+
   useEffect(() => {
+    localStorage.setItem("wishItem", JSON.stringify(wish));
     console.log("wish items", wish);
   }, [wish]);
 
@@ -190,9 +214,9 @@ const ProductProvider = ({ children }) => {
   // ------------------------------ Category Data Management ------------------------------->
   // ----------------------------------------------------------------------------------------
 
-  // manage navigation menu category filter ---------------->
+  // manage navigation menu category filter ------------>
   const NavFilter = (category) => {
-    const filCate = AllData.filter((items) => items.category === category);
+    const filCate = allData.filter((items) => items.category === category);
     setShopData(filCate);
   };
   // <---------------- manage navigation menu category filter
@@ -206,7 +230,7 @@ const ProductProvider = ({ children }) => {
 
   //Category Filter Function Start --------------------->
   const filterByCategory = (category) => {
-    const filteredCategory = AllData.filter((item) => {
+    const filteredCategory = allData.filter((item) => {
       return item.category === category;
     });
     setShopData(filteredCategory);
@@ -229,7 +253,7 @@ const ProductProvider = ({ children }) => {
         modalData,
         addCart,
         cart,
-        AllData,
+        allData,
         addWish,
         wish,
         incr,
@@ -243,6 +267,7 @@ const ProductProvider = ({ children }) => {
         finalTotalSave,
         cuponDiscount,
         offerDiscount,
+        removeSingleWish
       }}
     >
       {children}
