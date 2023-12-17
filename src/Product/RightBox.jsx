@@ -55,36 +55,9 @@ export default function RightBox({ filterSingle }) {
         </div>
 
         <div className="note-box product-packege">
-          <div className="cart_qty qty-box product-qty">
-            <div className="input-group">
-              <button
-                type="button"
-                className="qty-left-minus"
-                data-type="minus"
-                data-field=""
-              >
-                <i className="fa fa-minus" aria-hidden="true" />
-              </button>
-              <input
-                className="form-control input-number qty-input"
-                type="text"
-                name="quantity"
-                defaultValue={0}
-              />
-              <button
-                type="button"
-                className="qty-right-plus"
-                data-type="plus"
-                data-field=""
-              >
-                <i className="fa fa-plus" aria-hidden="true" />
-              </button>
-            </div>
-          </div>
           <button
            onClick={()=>addCart(id)}
-            className="btn btn-md bg-dark cart-button text-white w-100"
-          >
+            className="btn btn-md bg-dark cart-button text-white w-100">
             Add To Cart
           </button>
         </div>

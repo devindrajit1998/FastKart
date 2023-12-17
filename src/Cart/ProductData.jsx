@@ -63,7 +63,7 @@ export default function ProductData() {
                         <span className="text-title">Sold By:</span> {brand}
                       </li>
                       <li className="text-content">
-                        <span className="text-title">Quantity</span> - 500 g
+                        <span className="text-title">Quantity</span> {quantity}
                       </li>
                     </ul>
                   </div>
@@ -72,7 +72,8 @@ export default function ProductData() {
               <td className="price">
                 <h4 className="table-title text-content">Price</h4>
                 <h5>
-                  ${offerPrice} <del className="text-content">${price}</del>
+                  ${offerPrice} 
+                  <del className="text-content">${price}</del>
                 </h5>
                 <h6 className="theme-color">You Save : ${formattedNum}</h6>
               </td>

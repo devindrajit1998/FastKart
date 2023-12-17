@@ -60,3 +60,8 @@
 .quantity-price{
   margin: auto;
 } */
+
+
+.btn.btn-light.shopping-button.text-dark {
+	border: 1px solid #222;
+}

@@ -80,8 +80,19 @@ const ProductProvider = ({ children }) => {
       setCart(updatedCart);
     }
   };
+
+  useEffect(() => {
+    // get from localStorage---->
+    const localCart = JSON.parse(localStorage.getItem("cartData"));
+    if (localCart && localCart.length > 0) {
+      setCart(localCart);
+    }
+  }, []);
+
   useEffect(() => {
     console.log("cart item", cart);
+    // save to localStorage ---->
+    localStorage.setItem("cartData", JSON.stringify(cart));
   }, [cart]);
 
   // <-------------------------------- add to cart function
@@ -108,7 +119,7 @@ const ProductProvider = ({ children }) => {
   // cart total price management function ---------------->
   const getSubtotal = () => {
     const subTotal = cart.reduce((acc, obj) => {
-      return acc + obj.price * obj.quantity;
+      return acc + obj.offerPrice * obj.quantity;
     }, 0);
     const updateCart = subTotal.toFixed(2);
     setTotal(updateCart);
@@ -117,9 +128,9 @@ const ProductProvider = ({ children }) => {
   const totalSave = cart.reduce((acc, obj) => {
     return acc + (obj.price * obj.quantity - obj.offerPrice * obj.quantity);
   }, 0);
-
-  const finalTotalSave = (totalSave + cuponDiscount);
-
+  const cuponDis = (total * cuponDiscount) / 100;
+  const offerDiscount = cuponDis.toFixed(2);
+  const finalTotalSave = (totalSave + cuponDis).toFixed(2);
   const checkOutPrice = (total - finalTotalSave).toFixed(2);
 
   useEffect(() => {
@@ -230,6 +241,8 @@ const ProductProvider = ({ children }) => {
         matchCupon,
         checkOutPrice,
         finalTotalSave,
+        cuponDiscount,
+        offerDiscount,
       }}
     >
       {children}

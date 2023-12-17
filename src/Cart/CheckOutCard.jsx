@@ -1,9 +1,10 @@
 import React from 'react'
 import { useProductProvider } from '../ContextAPI/ProductContext'
+import { Link } from 'react-router-dom';
 
 export default function CheckOutCard() {
 
-    const {total, cart, handleOnChange, cupon, matchCupon, checkOutPrice, finalTotalSave} = useProductProvider();
+    const {total, cart, handleOnChange, cupon, matchCupon, checkOutPrice, finalTotalSave, offerDiscount} = useProductProvider();
 
 
   return (
@@ -33,11 +34,11 @@ export default function CheckOutCard() {
                                         </li>
                                         <li>
                                             <h4>Coupon Discount</h4>
-                                            <h4 className="price"> 0</h4>
+                                            <h4 className="price">- ${offerDiscount}</h4>
                                         </li>
                                         <li>
                                             <h4>Total Discount</h4>
-                                            <h4 className="price"> {finalTotalSave}</h4>
+                                            <h4 className="price">- ${finalTotalSave}</h4>
                                         </li>
                                         {/* <li className="align-items-start">
                                             <h4>Shipping</h4>
@@ -54,21 +55,21 @@ export default function CheckOutCard() {
                                 <div className="button-group cart-button">
                                     <ul>
                                         <li>
-                                            <button
-                                                onclick="location.href = 'checkout.html';"
+                                            <Link to="/checkOut"
+                                                onClick={()=>matchCupon(cupon)}
                                                 className="btn btn-animation proceed-btn fw-bold"
                                             >
                                                 Process To Checkout
-                                            </button>
+                                            </Link>
                                         </li>
                                         <li>
-                                            <button
-                                                onclick="location.href = 'index.html';"
+                                            <Link
+                                               to="/shop"
                                                 className="btn btn-light shopping-button text-dark"
                                             >
                                                 <i className="fa-solid fa-arrow-left-long" />
                                                 Return To Shopping
-                                            </button>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>
