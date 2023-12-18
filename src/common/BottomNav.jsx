@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useProductProvider } from "../ContextAPI/ProductContext";
 
 export default function BottomNav() {
-  const { AllCategory, NavFilter, cart, wish, total, removeSingle, removeSingleWish } =
+  const { AllCategory, NavFilter, cart, wish, total, removeSingle, removeSingleWish, authLink, CheckAuth, user } =
     useProductProvider();
   let link = "";
 let hideCart =""
@@ -237,8 +237,8 @@ let hideCart =""
                     </div>
                   </li>
                 </ul>
-                <Link href="user-dashboard.html" className="user-box">
-                  <span className="header-icon">
+                <Link to={authLink} className="user-box">
+                  <span className="header-icon" onClick={()=>CheckAuth(user.userName)}>
                     <i className="fa-solid fa-user" />
                   </span>
                   <div className="user-name">
